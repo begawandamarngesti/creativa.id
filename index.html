@@ -39,10 +39,33 @@ button,input,select,textarea{font:inherit} button{cursor:pointer;border:0}
 .toast{position:fixed;right:25px;bottom:25px;background:#191e2e;color:#fff;padding:12px 15px;border-radius:12px;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);transition:.2s;pointer-events:none;font-size:12px;z-index:99}.toast.show{opacity:1;transform:none}
 .modal{position:fixed;inset:0;background:rgba(12,16,28,.55);display:none;place-items:center;z-index:90;padding:20px}.modal.open{display:grid}.modal-box{background:#fff;border-radius:20px;max-width:780px;width:100%;max-height:90vh;overflow:auto;padding:20px}.modal-head{display:flex;justify-content:space-between;align-items:center}.close{background:#f2f3f7;width:34px;height:34px;border-radius:10px}
 @media(max-width:1100px){.grid4{grid-template-columns:repeat(2,1fr)}.product-grid{grid-template-columns:repeat(2,1fr)}.niche-grid{grid-template-columns:repeat(3,1fr)}.grid2{grid-template-columns:1fr}.sidebar{width:215px}.main{margin-left:215px;width:calc(100% - 215px)}} 
-@media(max-width:760px){.sidebar{display:none}.main{margin-left:0;width:100%;padding:15px}.grid4,.grid3,.formgrid,.kanban{grid-template-columns:1fr}.niche-grid{grid-template-columns:repeat(2,1fr)}.title h1{font-size:24px}}
+@media(max-width:760px){.sidebar{display:none}.main{margin-left:0;width:100%;padding:15px 15px 90px}.grid4,.grid3,.formgrid,.kanban{grid-template-columns:1fr}.niche-grid{grid-template-columns:repeat(2,1fr)}.title h1{font-size:24px}}
+.mobile-tabbar{display:none}
+@media(max-width:760px){
+  .mobile-tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;background:#111522;padding:8px 8px calc(8px + env(safe-area-inset-bottom));gap:6px;overflow-x:auto;z-index:85;box-shadow:0 -8px 24px rgba(0,0,0,.18);-webkit-overflow-scrolling:touch}
+  .mobile-tabbar::-webkit-scrollbar{display:none}
+  .mobile-tabbar button{flex:0 0 auto;width:48px;height:48px;border-radius:13px;background:transparent;color:#b9bfd0;display:grid;place-items:center}
+  .mobile-tabbar button.active,.mobile-tabbar button:hover{background:#20263b;color:#fff}
+  .mobile-tabbar button svg{width:20px;height:20px}
+}
 </style>
 
 <style id="creativaRevision">
+.sched-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.sched-head b{font-size:13px}
+.sched-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.sched-cal .dow{font-size:9px;color:var(--muted);text-align:center;padding:2px 0 6px;font-weight:800;letter-spacing:.03em}
+.sched-cal .day{min-height:58px;border:1px solid var(--line);border-radius:9px;padding:4px 5px;position:relative;cursor:pointer;background:#fff;transition:.15s}
+.sched-cal .day:hover{background:#f6f7ff;border-color:#d8daff}
+.sched-cal .day.other{opacity:.32}
+.sched-cal .day .dnum{font-weight:700;font-size:10px;color:var(--text)}
+.sched-cal .day.today .dnum{background:var(--primary);color:#fff;border-radius:6px;padding:0 5px;display:inline-block}
+.sched-cal .evt{margin-top:3px;background:#5b5ff0;color:#fff;border-radius:5px;padding:2px 4px;font-size:8.5px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sched-cal .evt.t-live{background:#ee9d39}
+.sched-cal .evt.t-meeting{background:#24a268}
+.sched-cal .evt.t-deadline{background:#e85a68}
+.sched-cal .evt.t-shoot{background:#5056de}
+.sched-cal .evt-more{font-size:8px;color:var(--muted);margin-top:2px}
 .landing-visual{height:480px;border-radius:28px;overflow:hidden;position:relative;background:#0d1020;box-shadow:0 26px 75px rgba(0,0,0,.28)}
 .landing-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:landingFade4 12s infinite;filter:brightness(.64);transform:scale(1.04);will-change:opacity,transform}
 .landing-slide.s1{animation-delay:0s;object-position:center}
@@ -80,11 +103,11 @@ button,input,select,textarea{font:inherit} button{cursor:pointer;border:0}
     <button class="active" data-page="dashboard"><i data-lucide="layout-dashboard"></i>Dashboard</button>
     <button data-page="profile"><i data-lucide="store"></i>Profil Bisnis</button>
     <button data-page="trends"><i data-lucide="flame"></i>Tren <span class="badge blue">PRO</span></button>
-    <button data-page="influencers"><i data-lucide="users"></i>Influencer <span class="badge blue">PRO</span></button>
+    <button data-page="influencers"><i data-lucide="users"></i>Influencer</button>
     <button data-page="brief"><i data-lucide="file-text"></i>Brief Campaign</button>
     <button data-page="escrow"><i data-lucide="shield-check"></i>Escrow & Review</button>
     <button data-page="performance"><i data-lucide="bar-chart-3"></i>Performa</button>
-    <button data-page="roster"><i data-lucide="contact-round"></i>Roster</button>
+    <button data-page="roster"><i data-lucide="receipt-text"></i>Riwayat Transaksi</button>
   </div>
   <div id="influencerNav" class="nav" style="display:none">
     <button data-page="inf-profile"><i data-lucide="badge-check"></i>Verifikasi Profil</button>
@@ -92,13 +115,12 @@ button,input,select,textarea{font:inherit} button{cursor:pointer;border:0}
     <button data-page="inf-talent"><i data-lucide="briefcase-business"></i>Manajemen Talenta</button>
     <button data-page="inf-performance"><i data-lucide="chart-no-axes-combined"></i>Performa Influencer</button>
   </div>
-  <div class="nav-label">Workspace Finance</div>
-  <div class="nav">
-    <button onclick="topup()"><i data-lucide="wallet-cards"></i>Saldo & Top Up</button>
-    <button id="transactionBtn" onclick="toast('Riwayat transaksi dibuka')"><i data-lucide="receipt-text"></i>Transaksi</button>
+  <div class="nav-label" id="financeLabel">Workspace Finance</div>
+  <div class="nav" id="financeNav">
+    <button data-page="wallet"><i data-lucide="wallet-cards"></i>Saldo & Top Up</button>
   </div>
   <div id="sidebarBalance" style="margin-top:35px;padding:14px;background:#1a1f30;border-radius:15px">
-    <div style="font-size:11px;color:#858da2">Saldo campaign</div><div style="font-weight:800;font-size:20px;margin:5px 0">Rp 2.500.000</div>
+    <div style="font-size:11px;color:#858da2" id="sidebarBalanceLabel">Saldo dapat digunakan</div><div id="sidebarBalanceValue" style="font-weight:800;font-size:20px;margin:5px 0">Rp2.500.000</div>
     <button class="btn primary small" style="width:100%" onclick="topup()">+ Top Up</button>
   </div>
 </aside>
@@ -150,7 +172,7 @@ button,input,select,textarea{font:inherit} button{cursor:pointer;border:0}
 <section id="trends" class="page">
  <div class="title-row"><div class="title"><h1>Trend Intelligence</h1><p>Monitoring demand, content volume, engagement, dan peluang masuk per niche.</p></div></div>
  <div class="card lock" style="min-height:390px">
-  <div class="lock-overlay"><div class="lock-box"><i data-lucide="lock"></i><h3>Trend Intelligence Premium</h3><p class="muted">Buka data tren dan rekomendasi market untuk semua niche.</p><button class="btn primary" onclick="subscribe('trends')">Berlangganan • Rp299K/bln</button></div></div>
+  <div class="lock-overlay"><div class="lock-box"><i data-lucide="lock"></i><h3>Trend Intelligence Premium</h3><p class="muted">Buka data tren dan rekomendasi market untuk semua niche.</p><button class="btn primary" onclick="subscribe('trends')">Berlangganan • Rp99K/bln</button></div></div>
   <div style="padding:4px"><div class="tabs"><button class="tab active">Kuliner</button><button class="tab">Fashion</button><button class="tab">Beauty</button><button class="tab">Kerajinan</button></div><div class="grid3"><div class="card"><h3>Rata-rata pencarian</h3><div style="font-size:28px;font-weight:800">84,2K</div></div><div class="card"><h3>Konten / bulan</h3><div style="font-size:28px;font-weight:800">18,6K</div></div><div class="card"><h3>Growth demand</h3><div style="font-size:28px;font-weight:800">+34%</div></div></div></div>
  </div>
  <div id="trendContent" style="display:none">
@@ -173,13 +195,22 @@ button,input,select,textarea{font:inherit} button{cursor:pointer;border:0}
  </div>
 </section>
 
+<section id="wallet" class="page">
+ <div class="title-row"><div class="title"><h1 id="walletTitle">Saldo & Top Up</h1><p id="walletDesc">Pantau saldo yang bisa dipakai dan saldo yang sedang teralokasi ke influencer.</p></div><div style="display:flex;gap:8px"><button class="btn primary" onclick="topup()"><i data-lucide="plus"></i> Top Up Saldo</button><button class="btn green" id="walletCairkanBtn" style="display:none" onclick="cairkanSaldo()"><i data-lucide="banknote"></i> Cairkan Dana</button></div></div>
+ <div class="grid2">
+  <div class="card stat"><div><div class="k" id="walletCard1Label">Saldo Dapat Digunakan</div><div class="v" id="walletAvailable">Rp2.500.000</div><div class="trend-up" id="walletCard1Note">Siap dipakai untuk campaign baru</div></div><div class="stat-icon"><i data-lucide="wallet"></i></div></div>
+  <div class="card stat"><div><div class="k" id="walletCard2Label">Saldo Dalam Penggunaan</div><div class="v" id="walletAllocated">Rp0</div><div class="trend-up" id="walletAllocatedNote">Teralokasi ke influencer aktif</div></div><div class="stat-icon" style="background:#fff7e7;color:#c88115"><i data-lucide="users"></i></div></div>
+ </div>
+ <div style="height:15px"></div>
+ <div class="card">
+  <div class="card-head"><div><h3 id="walletListTitle">Alokasi Saldo per Influencer</h3><div class="muted" id="walletListDesc">Dana yang sedang ditahan untuk campaign berjalan</div></div></div>
+  <div id="walletAllocations"></div>
+ </div>
+</section>
+
 <section id="influencers" class="page">
  <div class="title-row"><div class="title"><h1>Influencer Intelligence</h1><p>Temukan creator berdasarkan niche, platform, lokasi, followers, views, dan rate card.</p></div></div>
- <div class="card lock" style="min-height:300px">
-  <div class="lock-overlay"><div class="lock-box"><i data-lucide="lock"></i><h3>Influencer Marketplace Premium</h3><p class="muted">Buka leaderboard 50 creator dan detail performanya.</p><button class="btn primary" onclick="subscribe('influencers')">Berlangganan • Rp399K/bln</button></div></div>
-  <div class="table-wrap"><table class="table"><thead><tr><th>CREATOR</th><th>NICHE</th><th>FOLLOWERS</th><th>VIEWS</th><th>GMV</th><th>RATE</th></tr></thead><tbody id="fakeRows"></tbody></table></div>
- </div>
- <div id="infContent" style="display:none">
+ <div id="infContent">
   <div class="card">
    <div class="filters"><input id="searchInf" placeholder="Cari nama influencer..." oninput="renderInf()"><select id="filterNiche" onchange="renderInf()"><option>Semua Niche</option><option>Kuliner</option><option>Fashion</option><option>Beauty</option><option>Kerajinan</option><option>Lifestyle</option></select><select id="filterPlatform" onchange="renderInf()"><option>Semua Platform</option><option>TikTok</option><option>Instagram</option><option>YouTube</option><option>Threads</option></select><select id="filterLoc" onchange="renderInf()"><option>Semua Lokasi</option><option>Jakarta</option><option>Bandung</option><option>Surabaya</option><option>Bali</option><option>Medan</option></select></div>
    <div style="height:12px"></div>
@@ -193,15 +224,16 @@ button,input,select,textarea{font:inherit} button{cursor:pointer;border:0}
  <div class="title-row"><div class="title"><h1>Brief Campaign</h1><p>Susun brief sendiri atau gunakan AI untuk mempersempit target creator.</p></div><button class="btn primary" onclick="createBrief()">Simpan Brief</button></div>
  <div class="grid2">
   <div class="card">
-   <div class="card-head"><h3>Buat Brief Baru</h3><button class="btn small" onclick="aiBrief()">🔒 Gunakan AI</button></div>
+   <div class="card-head"><h3>Buat Brief Baru</h3><button class="btn small" onclick="aiBrief()">✨ Gunakan AI • Rp49K</button></div>
    <div class="formgrid">
     <div class="field full"><label>NAMA CAMPAIGN</label><input id="campName" value="Launch Kopi Arabica Nusantara"></div>
-    <div class="field"><label>LOKASI</label><input value="Jabodetabek & Bandung"></div>
-    <div class="field"><label>MIN. FOLLOWER</label><select><option>10K+</option><option>50K+</option><option>100K+</option><option>250K+</option></select></div>
-    <div class="field"><label>PLATFORM</label><select><option>TikTok</option><option>Instagram</option><option>TikTok + Instagram</option></select></div>
-    <div class="field"><label>BUDGET</label><input value="Rp15.000.000"></div>
-    <div class="field full"><label>DELIVERABLE</label><textarea>1 video short-form 30–45 detik, 1 posting, product tag, CTA menuju toko.</textarea></div>
-    <div class="field full"><label>SYARAT TAMBAHAN</label><textarea>Audience utama 18–34 tahun; creator mampu storytelling natural; tidak hard selling.</textarea></div>
+    <div class="field"><label>LOKASI</label><input id="briefLoc" value="Jabodetabek & Bandung"></div>
+    <div class="field"><label>MIN. FOLLOWER</label><select id="briefMinFollower"><option>10K+</option><option>50K+</option><option>100K+</option><option>250K+</option></select></div>
+    <div class="field"><label>PLATFORM</label><select id="briefPlatform"><option>TikTok</option><option>Instagram</option><option>TikTok + Instagram</option></select></div>
+    <div class="field"><label>BUDGET</label><input id="briefBudget" value="Rp15.000.000"></div>
+    <div class="field"><label>TIMELINE</label><input id="briefTimeline" value="10 hari (briefing, produksi, posting, review)"></div>
+    <div class="field full"><label>DELIVERABLE</label><textarea id="briefDeliverable">1 video short-form 30–45 detik, 1 posting, product tag, CTA menuju toko.</textarea></div>
+    <div class="field full"><label>SYARAT TAMBAHAN</label><textarea id="briefSyarat">Audience utama 18–34 tahun; creator mampu storytelling natural; tidak hard selling.</textarea></div>
    </div>
   </div>
   <div class="card"><div class="card-head"><h3>Riwayat Brief</h3><span class="muted">12 brief</span></div><div id="briefHistory"></div></div>
@@ -236,18 +268,48 @@ button,input,select,textarea{font:inherit} button{cursor:pointer;border:0}
  </div>
  <div style="height:15px"></div>
  <div class="card"><div class="card-head"><h3>Influencer Terbaik</h3><span class="muted">diurutkan berdasarkan performance score</span></div><div class="table-wrap"><table class="table"><thead><tr><th>RANK</th><th>INFLUENCER</th><th>CAMPAIGN</th><th>VIEWS</th><th>CLICKS</th><th>GMV</th><th>CPC</th><th>SCORE</th></tr></thead><tbody id="perfRows"></tbody></table></div></div>
+ <div style="height:15px"></div>
+ <div class="card" style="background:linear-gradient(135deg,#f8f9ff,#eef0ff);border:1px solid #d8daff">
+  <div class="card-head"><div><h3>🚀 Gunakan Iklan Profilmu</h3><div class="muted">Tampilkan profil bisnis lebih prioritas di pencarian & Campaign Discovery creator.</div></div><span class="badge blue" id="adsStatusBadge">ADS</span></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+   <div><div style="font-size:26px;font-weight:800">Rp50.000 <span class="muted" style="font-size:13px">/ minggu</span></div><p class="muted" style="margin:4px 0 0">Boost visibilitas profil ke lebih banyak creator, tampil di rekomendasi teratas selama 7 hari.</p></div>
+   <button class="btn primary" id="adsBtn" onclick="subscribeAds()">Aktifkan Iklan</button>
+  </div>
+ </div>
 </section>
 
 <section id="roster" class="page">
- <div class="title-row"><div class="title"><h1>Roster</h1><p>Riwayat influencer yang pernah bekerja sama dengan bisnis.</p></div><button class="btn" onclick="toast('Data roster berhasil diekspor')">Export CSV</button></div>
- <div class="card"><div class="filters"><input placeholder="Cari creator..."><select><option>Semua Niche</option><option>Kuliner</option><option>Beauty</option></select><select><option>Rating tertinggi</option><option>Campaign terbaru</option></select></div><div style="height:12px"></div>
- <div class="table-wrap"><table class="table"><thead><tr><th>INFLUENCER</th><th>NICHE</th><th>CAMPAIGN</th><th>KONTAK</th><th>RATING</th><th>LAST COLLAB</th><th>STATUS</th></tr></thead><tbody id="rosterRows"></tbody></table></div></div>
+ <div class="title-row"><div class="title"><h1>Riwayat Transaksi</h1><p>Pantau seluruh arus kas masuk dan keluar: top up, pembayaran campaign, dan pengembalian dana.</p></div><button class="btn" onclick="toast('Riwayat transaksi berhasil diekspor ke CSV')">Export CSV</button></div>
+ <div class="grid3">
+  <div class="card stat"><div><div class="k">Total Masuk</div><div class="v" id="txIn">Rp0</div><div class="trend-up">Top up & pengembalian dana</div></div><div class="stat-icon" style="background:#eafaf1;color:#1c8b57"><i data-lucide="arrow-down-circle"></i></div></div>
+  <div class="card stat"><div><div class="k">Total Keluar</div><div class="v" id="txOut">Rp0</div><div class="trend-up" style="color:#c6404f">Pembayaran campaign & layanan AI</div></div><div class="stat-icon" style="background:#fff2f2;color:#c6404f"><i data-lucide="arrow-up-circle"></i></div></div>
+  <div class="card stat"><div><div class="k">Saldo Bersih Periode</div><div class="v" id="txNet">Rp0</div><div class="trend-up">Sesuai filter di bawah</div></div><div class="stat-icon"><i data-lucide="wallet"></i></div></div>
+ </div>
+ <div style="height:15px"></div>
+ <div class="card">
+  <div class="filters">
+   <select id="txMonthFilter" onchange="renderTransactions()">
+    <option value="all">Semua Bulan</option>
+    <option value="2026-08">Agustus 2026</option>
+    <option value="2026-07">Juli 2026</option>
+    <option value="2026-06">Juni 2026</option>
+    <option value="2026-05">Mei 2026</option>
+   </select>
+   <select id="txTypeFilter" onchange="renderTransactions()">
+    <option value="all">Semua Jenis</option>
+    <option value="topup">Top Up</option>
+    <option value="payment">Pembayaran</option>
+    <option value="refund">Pengembalian Dana</option>
+   </select>
+  </div>
+  <div style="height:12px"></div>
+  <div class="table-wrap"><table class="table"><thead><tr><th>TANGGAL</th><th>JENIS</th><th>KETERANGAN</th><th>METODE</th><th>NOMINAL</th><th>STATUS</th></tr></thead><tbody id="txRows"></tbody></table></div>
+ </div>
 </section>
-<section id="inf-profile" class="page"><div class="title-row"><div class="title"><h1>Verifikasi Profil Influencer</h1><p>Branding creator, niche, kebiasaan konten, bukti media, dan trust score.</p></div><button class="btn primary" onclick="saveInfluencerProfile()">Submit Verifikasi</button></div><div class="grid2"><div class="card"><div class="card-head"><h3>Creator Identity</h3><span class="badge yellow">Belum diverifikasi</span></div><div class="profile-box"><img class="brand-img" src="https://i.pravatar.cc/160?img=32"><div><b>Raka Pratama</b><div class="muted">@rakapratama • Bandung</div><div class="socials" style="margin-top:9px"><span class="social">TikTok ✓</span><span class="social">Instagram ✓</span><span class="social">YouTube ✓</span></div></div></div><div style="height:16px"></div><div class="formgrid"><div class="field"><label>NAMA LENGKAP</label><input value="Raka Pratama"></div><div class="field"><label>NICHE UTAMA</label><select><option>Food & Beverage</option><option>Fashion</option><option>Beauty</option><option>Lifestyle</option><option>Travel</option><option>Gaming</option></select></div><div class="field full"><label>BRANDING / BIO</label><textarea>Food storyteller yang membahas tempat makan, kopi, dan gaya hidup urban secara natural dengan pendekatan honest review.</textarea></div><div class="field full"><label>KEBIASAAN KEHIDUPAN SEHARI-HARI DALAM KONTEN</label><textarea>Coffee run, kuliner akhir pekan, behind-the-scenes kerja, short travel, dan POV personal.</textarea></div><div class="field"><label>DOMISILI</label><input value="Bandung"></div><div class="field"><label>BAHASA</label><select><option>Indonesia</option><option>Indonesia + English</option></select></div><div class="field full"><label>LINK MEDIA SOSIAL</label><input value="tiktok.com/@rakapratama"><input style="margin-top:6px" value="instagram.com/rakapratama"><input style="margin-top:6px" value="youtube.com/@rakapratama"></div></div></div><div><div class="card"><div class="card-head"><h3>Content Proof & Verification</h3><span class="muted">Wajib</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=600&q=80" style="width:100%;height:130px;object-fit:cover;border-radius:14px"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&q=80" style="width:100%;height:130px;object-fit:cover;border-radius:14px"></div><button class="btn" style="width:100%;margin-top:10px" onclick="toast('Foto/video berhasil ditambahkan')">+ Upload Foto / Video</button><div class="success" style="margin-top:10px">✓ 8 content samples • ✓ 3 campaign proofs • ✓ links connected</div></div><div style="height:15px"></div><div class="grid3"><div class="card"><div class="muted">Saldo Creator</div><div style="font-size:22px;font-weight:800">Rp4,85 Jt</div><button class="btn small" style="margin-top:8px" onclick="creatorTopup()">+ Top Up</button></div><div class="card"><div class="muted">Siap Dicairkan</div><div style="font-size:22px;font-weight:800">Rp1,92 Jt</div><button class="btn green small" style="margin-top:8px" onclick="toast('Permintaan pencairan dibuat')">Cairkan</button></div><div class="card"><div class="muted">Trust Score</div><div style="font-size:22px;font-weight:800">92/100</div><div class="trend-up">+4 pts</div></div></div></div></div><div style="height:15px"></div><div class="card" id="certificateProfileCard"><div class="card-head"><h3>Sertifikasi & Badge</h3><span class="muted">Pelatihan yang sudah diselesaikan</span></div><div id="certificateList"><div class="muted">Belum ada sertifikasi. Selesaikan Pelatihan Kreator untuk mendapatkan badge dan sertifikat.</div></div></div></section>
+<section id="inf-profile" class="page"><div class="title-row"><div class="title"><h1>Verifikasi Profil Influencer</h1><p>Branding creator, niche, kebiasaan konten, bukti media, dan trust score.</p></div><button class="btn primary" onclick="saveInfluencerProfile()">Submit Verifikasi</button></div><div class="grid2"><div class="card"><div class="card-head"><h3>Creator Identity</h3><span class="badge yellow">Belum diverifikasi</span></div><div class="profile-box"><img class="brand-img" src="https://i.pravatar.cc/160?img=32"><div><b>Raka Pratama</b><div class="muted">@rakapratama • Bandung</div><div class="socials" style="margin-top:9px"><span class="social">TikTok ✓</span><span class="social">Instagram ✓</span><span class="social">YouTube ✓</span></div></div></div><div style="height:16px"></div><div class="formgrid"><div class="field"><label>NAMA LENGKAP</label><input value="Raka Pratama"></div><div class="field"><label>NICHE UTAMA</label><select><option>Food & Beverage</option><option>Fashion</option><option>Beauty</option><option>Lifestyle</option><option>Travel</option><option>Gaming</option></select></div><div class="field full"><label>BRANDING / BIO</label><textarea>Food storyteller yang membahas tempat makan, kopi, dan gaya hidup urban secara natural dengan pendekatan honest review.</textarea></div><div class="field full"><label>KEBIASAAN KEHIDUPAN SEHARI-HARI DALAM KONTEN</label><textarea>Coffee run, kuliner akhir pekan, behind-the-scenes kerja, short travel, dan POV personal.</textarea></div><div class="field"><label>DOMISILI</label><input value="Bandung"></div><div class="field"><label>BAHASA</label><select><option>Indonesia</option><option>Indonesia + English</option></select></div><div class="field full"><label>LINK MEDIA SOSIAL</label><input value="tiktok.com/@rakapratama"><input style="margin-top:6px" value="instagram.com/rakapratama"><input style="margin-top:6px" value="youtube.com/@rakapratama"></div></div></div><div><div class="card"><div class="card-head"><h3>Content Proof & Verification</h3><span class="muted">Wajib</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=600&q=80" style="width:100%;height:130px;object-fit:cover;border-radius:14px"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&q=80" style="width:100%;height:130px;object-fit:cover;border-radius:14px"></div><button class="btn" style="width:100%;margin-top:10px" onclick="toast('Foto/video berhasil ditambahkan')">+ Upload Foto / Video</button><div class="success" style="margin-top:10px">✓ 8 content samples • ✓ 3 campaign proofs • ✓ links connected</div></div><div style="height:15px"></div><div class="grid3"><div class="card"><div class="muted">Saldo Creator</div><div style="font-size:22px;font-weight:800" id="profileSaldoCreator">Rp4,85 Jt</div><button class="btn small" style="margin-top:8px" onclick="goto('wallet')">+ Top Up</button></div><div class="card"><div class="muted">Siap Dicairkan</div><div style="font-size:22px;font-weight:800" id="profileSaldoReady">Rp1,92 Jt</div><button class="btn green small" style="margin-top:8px" onclick="goto('wallet');cairkanSaldo()">Cairkan</button></div><div class="card"><div class="muted">Trust Score</div><div style="font-size:22px;font-weight:800">92/100</div><div class="trend-up">+4 pts</div></div></div></div></div><div style="height:15px"></div><div class="card" id="certificateProfileCard"><div class="card-head"><h3>Sertifikasi & Badge</h3><span class="muted">Pelatihan yang sudah diselesaikan</span></div><div id="certificateList"><div class="muted">Belum ada sertifikasi. Selesaikan Pelatihan Kreator untuk mendapatkan badge dan sertifikat.</div></div></div></section>
 <section id="inf-campaign" class="page"><div class="title-row"><div class="title"><h1>Campaign Discovery</h1><p>Cari campaign berdasarkan 60+ kota/kabupaten, niche, followers, rate card, dan platform.</p></div><button class="btn" onclick="showInvites()">✉ Undangan <span class="badge blue">3</span></button></div><div class="card"><div class="filters"><input id="campSearch" placeholder="Cari campaign / bisnis..." oninput="renderCampaigns()"><select id="cityFilter" onchange="renderCampaigns()"><option>Semua Kota/Kabupaten</option></select><select id="nicheFilter" onchange="renderCampaigns()"><option>Semua Niche</option><option>Kuliner</option><option>Beauty</option><option>Fashion</option><option>Travel</option><option>Lifestyle</option><option>Gaming</option><option>Parenting</option><option>Tech</option><option>Otomotif</option><option>Kerajinan</option><option>Fitness</option><option>Education</option></select><select id="minFollowerFilter" onchange="renderCampaigns()"><option value="0">Min. Followers</option><option value="10000">10K+</option><option value="50000">50K+</option><option value="100000">100K+</option><option value="250000">250K+</option></select><select id="rateFilter" onchange="renderCampaigns()"><option value="0">Semua Rate Card</option><option value="1000000">≤ Rp1 Jt</option><option value="2500000">≤ Rp2,5 Jt</option><option value="5000000">≤ Rp5 Jt</option></select></div></div><div style="height:15px"></div><div class="grid3" id="campaignCards"></div></section>
-<section id="inf-talent" class="page"><div class="title-row"><div class="title"><h1>Manajemen Talenta</h1><p>Rate card, talent document, trend fit, peluang diterima, prioritas campaign, konsultasi, dan AI schedule.</p></div><button class="btn primary" onclick="talentAI()">🔒 AI Talent Suite</button></div><div class="grid2"><div class="card"><div class="card-head"><h3>Rate Card Creator</h3><button class="btn small" onclick="toast('Rate card disimpan')">Simpan</button></div><div class="table-wrap"><table class="table"><thead><tr><th>FORMAT</th><th>RATE</th><th>DELIVERABLE</th></tr></thead><tbody><tr><td>TikTok Video</td><td><input style="width:120px" value="2500000"></td><td>1 video ≤60 detik</td></tr><tr><td>IG Reels</td><td><input style="width:120px" value="2200000"></td><td>1 reel + tag</td></tr><tr><td>IG Story</td><td><input style="width:120px" value="750000"></td><td>3 frames</td></tr><tr><td>Carousel</td><td><input style="width:120px" value="1200000"></td><td>5 slides</td></tr><tr><td>Live Session</td><td><input style="width:120px" value="3500000"></td><td>60 menit</td></tr><tr><td>UGC Only</td><td><input style="width:120px" value="1800000"></td><td>Raw + edited</td></tr></tbody></table></div></div><div class="card lock"><div class="lock-overlay"><div class="lock-box"><i data-lucide="lock"></i><h3>AI Talent Document</h3><p class="muted">AI menyusun CV/talent doc yang sesuai profil creator dan kebutuhan unit usaha.</p><button class="btn primary" onclick="talentAI()">Berlangganan • Rp199K/bln</button></div></div><div class="formgrid"><div class="field"><label>HEADLINE</label><input value="Food Creator • Storytelling • Bandung"></div><div class="field"><label>EXPERIENCE</label><input value="18 Campaign"></div><div class="field full"><label>ABOUT</label><textarea>Creator dengan kekuatan storytelling dan audience urban 18–34.</textarea></div></div></div></div><div style="height:15px"></div><div class="grid3"><div class="card"><div class="card-head"><h3>Trend Fit</h3><span class="badge green">Live</span></div><div class="task"><b>Local Coffee Story</b><p>Fit score 91% • demand +34%</p></div><div class="task"><b>Weekend Food Guide</b><p>Fit score 87% • demand +21%</p></div><div class="task"><b>UMKM Bandung</b><p>Fit score 83% • demand +18%</p></div></div><div class="card"><div class="card-head"><h3>Probabilitas Diterima</h3></div><div class="chart-wrap"><canvas id="acceptChart"></canvas></div></div><div class="card"><div class="card-head"><h3>Prioritas Campaign</h3></div><div id="priorityList"></div></div></div><div style="height:15px"></div><div class="grid2"><div class="card"><div class="card-head"><h3>Playbook Creator</h3><span class="badge blue">PRO</span></div><div class="task"><b>1. Perbaiki talent doc</b><p>Tekankan niche, retention, campaign terbaik, dan bukti conversion.</p></div><div class="task"><b>2. Submit campaign fit ≥80%</b><p>Utamakan creator-market fit sebelum mengejar volume apply.</p></div><div class="task"><b>3. Bangun bukti conversion</b><p>Tambahkan clicks, voucher, GMV, dan testimonial brand.</p></div><button class="btn" onclick="consultWA()">Konsultasikan via WhatsApp</button></div><div class="card"><div class="card-head"><h3>AI Schedule Planner</h3><span class="muted">PRO • otomatis</span></div><div class="chart-wrap"><canvas id="scheduleChart"></canvas></div><button class="btn primary" style="width:100%" onclick="toast('AI mengoptimalkan jadwal mingguan')">Optimalkan Jadwal</button><button class="btn" style="width:100%;margin-top:7px" onclick="toast('Mode manual aktif')">Atur Sendiri</button></div></div></section>
-<section id="inf-performance" class="page"><div class="title-row"><div class="title"><h1>Performa Influencer</h1><p>Update laporan bulanan dan lihat histori audience, engagement, campaign success, rating, target, serta portfolio terbaik.</p></div><button class="btn primary" onclick="openUpdatePerformance()">+ Update Bulanan</button></div><div class="grid4"><div class="card stat"><div><div class="k">Followers</div><div class="v">184,2K</div><div class="trend-up">+7,8%</div></div></div><div class="card stat"><div><div class="k">Monthly Views</div><div class="v">1,24 Jt</div><div class="trend-up">+14,2%</div></div></div><div class="card stat"><div><div class="k">Engagement</div><div class="v">6,8%</div><div class="trend-up">+0,9pt</div></div></div><div class="card stat"><div><div class="k">Campaign Success</div><div class="v">92%</div><div class="trend-up">18/20 selesai</div></div></div></div><div style="height:15px"></div><div class="grid2"><div class="card"><div class="card-head"><h3>Audience Growth History</h3><span class="muted">8 bulan</span></div><div class="chart-wrap tall"><canvas id="infGrowthChart"></canvas></div></div><div class="card"><div class="card-head"><h3>Content Health</h3><span class="muted">latest month</span></div><div class="chart-wrap tall"><canvas id="infHealthChart"></canvas></div></div></div><div style="height:15px"></div><div class="grid3"><div class="card"><div class="card-head"><h3>Campaign Completion</h3></div><div class="chart-wrap"><canvas id="completionChart"></canvas></div></div><div class="card"><div class="card-head"><h3>Client Rating History</h3></div><div class="chart-wrap"><canvas id="ratingChart"></canvas></div></div><div class="card"><div class="card-head"><h3>Target Achievement</h3></div><div class="chart-wrap"><canvas id="targetChart"></canvas></div></div></div><div style="height:15px"></div><div class="grid2"><div class="card"><div class="card-head"><h3>Campaign Performance Mix</h3></div><div class="chart-wrap"><canvas id="campaignMixChart"></canvas></div></div><div class="card"><div class="card-head"><h3>Top Portfolio</h3><span class="muted">best results</span></div><div id="topPortfolio"></div></div></div><div style="height:15px"></div><div class="card"><div class="card-head"><h3>Monthly Report History</h3><button class="btn small" onclick="openUpdatePerformance()">Update Data</button></div><div class="table-wrap"><table class="table"><thead><tr><th>PERIODE</th><th>FOLLOWERS</th><th>LIKES</th><th>COMMENTS</th><th>SHARES</th><th>VIEWS</th><th>AVG ER</th><th>CAMPAIGN</th></tr></thead><tbody id="monthlyRows"></tbody></table></div></div></section>'''
-h=h.replace('</main>\n</div>\n\n<div class="modal"',sections+'</main>\n</div>\n\n<div class="modal"',1)
+<section id="inf-talent" class="page"><div class="title-row"><div class="title"><h1>Manajemen Talenta</h1><p>Rate card, talent document, trend fit, peluang diterima, prioritas campaign, konsultasi, dan AI schedule.</p></div><button class="btn primary" id="talentSuiteBtn" onclick="talentAI()">🔒 AI Talent Suite</button></div><div class="grid2"><div class="card"><div class="card-head"><h3>Rate Card Creator</h3><button class="btn small" onclick="toast('Rate card disimpan')">Simpan</button></div><div id="rateRecoNote" style="display:none" class="success">✨ Rate card disesuaikan otomatis oleh AI berdasarkan trend fit & demand niche kamu.</div><div class="table-wrap"><table class="table"><thead><tr><th>FORMAT</th><th>RATE</th><th>DELIVERABLE</th></tr></thead><tbody><tr><td>TikTok Video</td><td><input id="rateTiktok" style="width:120px" value="2500000"></td><td>1 video ≤60 detik</td></tr><tr><td>IG Reels</td><td><input id="rateReels" style="width:120px" value="2200000"></td><td>1 reel + tag</td></tr><tr><td>IG Story</td><td><input id="rateStory" style="width:120px" value="750000"></td><td>3 frames</td></tr><tr><td>Carousel</td><td><input id="rateCarousel" style="width:120px" value="1200000"></td><td>5 slides</td></tr><tr><td>Live Session</td><td><input id="rateLive" style="width:120px" value="3500000"></td><td>60 menit</td></tr><tr><td>UGC Only</td><td><input id="rateUgc" style="width:120px" value="1800000"></td><td>Raw + edited</td></tr></tbody></table></div></div><div class="card lock" id="talentLockCard"><div class="lock-overlay"><div class="lock-box"><i data-lucide="lock"></i><h3>AI Talent Document</h3><p class="muted">AI menyusun CV/talent doc, rekomendasi rate card, dan saran perbaikan profil sesuai kebutuhan unit usaha.</p><button class="btn primary" onclick="talentAI()">Berlangganan • Rp49K/bln</button></div></div><div class="formgrid"><div class="field"><label>HEADLINE</label><input value="Food Creator • Storytelling • Bandung"></div><div class="field"><label>EXPERIENCE</label><input value="18 Campaign"></div><div class="field full"><label>ABOUT</label><textarea>Creator dengan kekuatan storytelling dan audience urban 18–34.</textarea></div></div></div></div><div style="height:15px"></div><div class="grid3"><div class="card"><div class="card-head"><h3>Trend Fit</h3><span class="badge green">Live</span></div><div class="task"><b>Local Coffee Story</b><p>Fit score 91% • demand +34%</p></div><div class="task"><b>Weekend Food Guide</b><p>Fit score 87% • demand +21%</p></div><div class="task"><b>UMKM Bandung</b><p>Fit score 83% • demand +18%</p></div></div><div class="card"><div class="card-head"><h3>Probabilitas Diterima</h3></div><div class="chart-wrap"><canvas id="acceptChart"></canvas></div></div><div class="card"><div class="card-head"><h3>Prioritas Campaign</h3></div><div id="priorityList"></div></div></div><div style="height:15px"></div><div class="grid2"><div class="card"><div class="card-head"><h3>Playbook Creator — Saran Perbaikan Profil</h3><span class="badge blue">PRO</span></div><div id="playbookList"><div class="task"><b>1. Perbaiki talent doc</b><p>Tekankan niche, retention, campaign terbaik, dan bukti conversion.</p></div><div class="task"><b>2. Submit campaign fit ≥80%</b><p>Utamakan creator-market fit sebelum mengejar volume apply.</p></div><div class="task"><b>3. Bangun bukti conversion</b><p>Tambahkan clicks, voucher, GMV, dan testimonial brand.</p></div></div><button class="btn" onclick="consultWA()">Konsultasikan via WhatsApp</button></div><div class="card"><div class="card-head"><h3>AI Schedule Planner</h3><span class="muted">Interaktif • klik tanggal untuk atur kegiatan</span></div><div class="sched-head"><button class="btn small" onclick="schedShift(-1)"><i data-lucide="chevron-left"></i></button><b id="schedMonthLabel">Agustus 2026</b><button class="btn small" onclick="schedShift(1)"><i data-lucide="chevron-right"></i></button></div><div id="scheduleCalendar"></div><button class="btn primary" style="width:100%;margin-top:10px" onclick="optimizeSchedule()">✨ Optimalkan Jadwal dengan AI</button></div></div></section>
+<section id="inf-performance" class="page"><div class="title-row"><div class="title"><h1>Performa Influencer</h1><p>Update laporan bulanan dan lihat histori audience, engagement, campaign success, rating, target, serta portfolio terbaik.</p></div><button class="btn primary" onclick="openUpdatePerformance()">+ Update Bulanan</button></div><div class="grid4"><div class="card stat"><div><div class="k">Followers</div><div class="v">184,2K</div><div class="trend-up">+7,8%</div></div></div><div class="card stat"><div><div class="k">Monthly Views</div><div class="v">1,24 Jt</div><div class="trend-up">+14,2%</div></div></div><div class="card stat"><div><div class="k">Engagement</div><div class="v">6,8%</div><div class="trend-up">+0,9pt</div></div></div><div class="card stat"><div><div class="k">Campaign Success</div><div class="v">92%</div><div class="trend-up">18/20 selesai</div></div></div></div><div style="height:15px"></div><div class="grid2"><div class="card"><div class="card-head"><h3>Audience Growth History</h3><span class="muted">8 bulan</span></div><div class="chart-wrap tall"><canvas id="infGrowthChart"></canvas></div></div><div class="card"><div class="card-head"><h3>Content Health</h3><span class="muted">latest month</span></div><div class="chart-wrap tall"><canvas id="infHealthChart"></canvas></div></div></div><div style="height:15px"></div><div class="grid3"><div class="card"><div class="card-head"><h3>Campaign Completion</h3></div><div class="chart-wrap"><canvas id="completionChart"></canvas></div></div><div class="card"><div class="card-head"><h3>Client Rating History</h3></div><div class="chart-wrap"><canvas id="ratingChart"></canvas></div></div><div class="card"><div class="card-head"><h3>Target Achievement</h3></div><div class="chart-wrap"><canvas id="targetChart"></canvas></div></div></div><div style="height:15px"></div><div class="grid2"><div class="card"><div class="card-head"><h3>Campaign Performance Mix</h3></div><div class="chart-wrap"><canvas id="campaignMixChart"></canvas></div></div><div class="card"><div class="card-head"><h3>Top Portfolio</h3><span class="muted">best results</span></div><div id="topPortfolio"></div></div></div><div style="height:15px"></div><div class="card"><div class="card-head"><h3>Monthly Report History</h3><button class="btn small" onclick="openUpdatePerformance()">Update Data</button></div><div class="table-wrap"><table class="table"><thead><tr><th>PERIODE</th><th>FOLLOWERS</th><th>LIKES</th><th>COMMENTS</th><th>SHARES</th><th>VIEWS</th><th>AVG ER</th><th>CAMPAIGN</th></tr></thead><tbody id="monthlyRows"></tbody></table></div></div></section>
 
 <section id="training" class="page">
   <div class="title-row">
@@ -265,6 +327,8 @@ h=h.replace('</main>\n</div>\n\n<div class="modal"',sections+'</main>\n</div>\n\
 </section>
 
 </main></div></div>
+
+<nav class="mobile-tabbar nav" id="mobileTabbar"></nav>
 
 <div class="modal" id="modal"><div class="modal-box" id="modalBox"></div></div>
 <div class="toast" id="toast"></div>
@@ -302,11 +366,71 @@ let influencers=Array.from({length:50},(_,i)=>{
 });
 function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2200)}
 function goto(page){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(page).classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));document.getElementById('crumb').textContent=document.querySelector(`[data-page="${page}"]`)?.textContent.trim()||page;window.scrollTo(0,0);setTimeout(()=>lucide.createIcons(),50)}
-function topup(){openModal(`<div class="modal-head"><h2>Top Up Saldo</h2><button class="close" onclick="closeModal()">×</button></div><p class="muted">Saldo saat ini Rp2.500.000</p><div class="formgrid"><div class="field full"><label>NOMINAL</label><input id="topupVal" value="1000000"></div><div class="field full"><label>METODE PEMBAYARAN</label><select><option>Virtual Account</option><option>QRIS</option><option>Kartu</option></select></div></div><div style="height:15px"></div><button class="btn primary" style="width:100%" onclick="toast('Top up berhasil ditambahkan');closeModal()">Bayar & Tambah Saldo</button>`)}
-function subscribe(type){const label=type==='trends'?'Trend Intelligence':'Influencer Marketplace';openModal(`<div class="modal-head"><h2>Aktifkan ${label}</h2><button class="close" onclick="closeModal()">×</button></div><p class="muted">Paket premium membuka seluruh insight, filter, dan data creator.</p><div class="card" style="background:#f8f9ff"><div class="k">PAKET PRO</div><div style="font-size:30px;font-weight:800">Rp399.000 <span class="muted">/ bulan</span></div><p class="muted">Termasuk seluruh niche • unlimited search • analytics.</p></div><button class="btn primary" style="width:100%;margin-top:10px" onclick="unlock('${type}')">Bayar Sekarang</button>`)}
-function unlock(type){closeModal();document.querySelector(`#${type}`).querySelector('.lock')?.remove();if(type==='trends'){document.getElementById('trendContent').style.display='block';initTrends()} if(type==='influencers'){document.getElementById('infContent').style.display='block';renderInf()}toast('Premium aktif. Fitur berhasil dibuka.')}
+function topup(){
+ const isInf=typeof role!=='undefined'&&role==='influencer';
+ const bal=isInf?creatorAvailable:walletAvailable;
+ openModal(`<div class="modal-head"><h2>Top Up Saldo</h2><button class="close" onclick="closeModal()">×</button></div><p class="muted">Saldo saat ini: <b>${money(bal)}</b></p><div class="formgrid"><div class="field full"><label>NOMINAL TOP UP</label><input id="topupVal" value="1000000"></div><div class="field full"><label>METODE PEMBAYARAN</label><select id="topupMethod"><option>Virtual Account</option><option>QRIS</option><option>Kartu</option></select></div></div><div style="height:15px"></div><button class="btn primary" style="width:100%" onclick="confirmTopup()">Bayar & Tambah Saldo</button>`)}
+function confirmTopup(){
+ const raw=(document.getElementById('topupVal').value||'').replace(/[^0-9]/g,'');
+ const val=parseInt(raw)||0, method=document.getElementById('topupMethod').value;
+ if(val<=0){toast('Masukkan nominal top up yang valid');return}
+ const isInf=typeof role!=='undefined'&&role==='influencer';
+ if(isInf){creatorAvailable+=val}else{walletAvailable+=val}
+ financeTransactions.unshift({date:new Date().toISOString().slice(0,10),type:'topup',desc:'Top Up Saldo'+(isInf?' Creator':' Campaign'),method,amount:val,status:'success'});
+ renderWallet();
+ if(document.getElementById('txRows'))renderTransactions();
+ closeModal();
+ toast('Top up berhasil. Saldo bertambah '+money(val));
+}
+function subscribe(type){const label=type==='trends'?'Trend Intelligence':'Influencer Marketplace';openModal(`<div class="modal-head"><h2>Aktifkan ${label}</h2><button class="close" onclick="closeModal()">×</button></div><p class="muted">Paket premium membuka seluruh insight, filter, dan data creator.</p><div class="card" style="background:#f8f9ff"><div class="k">PAKET PRO</div><div style="font-size:30px;font-weight:800">Rp99.000 <span class="muted">/ bulan</span></div><p class="muted">Termasuk seluruh niche • unlimited search • analytics • rekomendasi tren lengkap.</p></div><button class="btn primary" style="width:100%;margin-top:10px" onclick="unlock('${type}')">Bayar Sekarang</button>`)}
+function unlock(type){closeModal();document.querySelector(`#${type}`).querySelector('.lock')?.remove();if(type==='trends'){document.getElementById('trendContent').style.display='block';initTrends()}toast('Premium aktif. Fitur berhasil dibuka.')}
+let adsActive=false;
+function subscribeAds(){
+ if(adsActive){toast('Iklan profil sudah aktif minggu ini');return}
+ openModal(`<div class="modal-head"><h2>Aktifkan Iklan Profil Bisnis</h2><button class="close" onclick="closeModal()">×</button></div><p class="muted">Profil bisnis kamu akan tampil prioritas di pencarian & Campaign Discovery creator selama 7 hari.</p><div class="card" style="background:#f8f9ff"><div class="k">IKLAN PROFIL</div><div style="font-size:30px;font-weight:800">Rp50.000 <span class="muted">/ minggu</span></div><p class="muted">Tampil di rekomendasi teratas • badge Boosted • jangkauan lebih luas.</p></div><div class="formgrid" style="margin-top:10px"><div class="field full"><label>METODE PEMBAYARAN</label><select id="adsPayMethod"><option>Virtual Account</option><option>QRIS</option><option>Kartu</option><option>Saldo Campaign</option></select></div></div><button class="btn primary" style="width:100%;margin-top:10px" onclick="confirmAds()">Bayar & Aktifkan Iklan</button>`);
+}
+function confirmAds(){
+ const method=document.getElementById('adsPayMethod').value;
+ if(method==='Saldo Campaign'){
+  if(walletAvailable<50000){toast('Saldo campaign tidak cukup untuk iklan');return}
+  walletAvailable-=50000; if(typeof renderWallet==='function')renderWallet();
+ }
+ financeTransactions.unshift({date:new Date().toISOString().slice(0,10),type:'payment',desc:'Iklan Profil Bisnis (7 hari)',method,amount:-50000,status:'success'});
+ if(document.getElementById('txRows'))renderTransactions();
+ adsActive=true;
+ closeModal();
+ const btn=document.getElementById('adsBtn'); if(btn){btn.textContent='Iklan Aktif • 7 hari lagi';btn.classList.remove('primary')}
+ const badge=document.getElementById('adsStatusBadge'); if(badge){badge.textContent='AKTIF';badge.className='badge green'}
+ toast('Iklan profil aktif. Profil bisnis kini tampil prioritas selama 7 hari 🚀');
+}
 function createBrief(){const n=document.getElementById('campName').value;document.getElementById('briefHistory').insertAdjacentHTML('afterbegin',`<div class="task"><div class="top"><b>${n}</b><span class="badge blue">Draft</span></div><p>Dibuat barusan • TikTok • Jabodetabek</p></div>`);toast('Brief disimpan')}
-function aiBrief(){openModal(`<div class="modal-head"><h2>AI Brief Assistant</h2><button class="close" onclick="closeModal()">×</button></div><div class="msg in">Hai! Aku sudah membaca profil RasaKita Coffee. Campaign paling cocok: creator storytelling 18–34 tahun, fokus kopi & lifestyle.</div><div class="msg in">Aku sarankan brief: 1 TikTok 30–45 detik + CTA voucher + product tag + soft selling.</div><textarea style="width:100%;height:100px;border:1px solid var(--line);border-radius:10px;padding:10px" placeholder="Tambahkan konteks campaign..."></textarea><button class="btn primary" style="width:100%;margin-top:10px" onclick="document.getElementById('campName').value='AI Recommended — Kopi Habit Challenge';closeModal();toast('AI menyesuaikan brief berdasarkan profil bisnis')">Gunakan Rekomendasi</button>`)}
+const aiBriefTemplates=[
+ {name:'Kopi Habit Challenge — 7 Hari Ngopi Seru',loc:'Jabodetabek, Bandung & Surabaya',minFollower:'50K+',platform:'TikTok + Instagram',budget:'Rp18.500.000',timeline:'10 hari — briefing 1 hari, produksi 3 hari, posting 2 hari, review & laporan performa 4 hari',deliverable:'1 video short-form 30–45 detik gaya storytelling "day in my life", 1 carousel Instagram 5 slide, product tag + voucher code, CTA menuju toko online.',syarat:'Audience utama 18–34 tahun • gaya bahasa santai & otentik • tidak hard-selling • wajib menonjolkan aroma dan rasa kopi secara natural • sertakan proses brewing di balik layar.'},
+ {name:'Ngopi Pagi, Cerita Hangat — RasaKita Coffee Story',loc:'Bandung & Jabodetabek',minFollower:'30K+',platform:'TikTok',budget:'Rp14.200.000',timeline:'8 hari — briefing 1 hari, produksi 2 hari, posting 1 hari, monitoring performa 4 hari',deliverable:'1 video short-form ≤60 detik format morning routine, 3 Instagram Story dengan swipe-up voucher, product tag di caption.',syarat:'Konten terasa personal & relate dengan rutinitas pagi • sertakan momen menyeduh kopi • hindari klaim kesehatan berlebihan • maksimal 2 kali revisi.'},
+ {name:'Cold Brew Weekend Sensation',loc:'Jabodetabek, Bali & Surabaya',minFollower:'75K+',platform:'TikTok + Instagram',budget:'Rp22.000.000',timeline:'12 hari — briefing 1 hari, produksi 3 hari, review internal 2 hari, posting & monitoring 6 hari',deliverable:'1 video short-form 45–60 detik konsep "weekend refresh", 1 Reels, 1 carousel review rasa, product tag, voucher eksklusif follower.',syarat:'Hook kuat di 3 detik pertama • storytelling natural, bukan iklan kaku • wajib CTA ke toko • maksimal 2 kali revisi.'}
+];
+function aiBrief(){openModal(`<div class="modal-head"><div><h2>AI Brief Writer</h2><p class="muted">AI membaca profil bisnis lalu menuliskan brief campaign lengkap secara otomatis — judul, deliverable, syarat, budget, dan timeline.</p></div><button class="close" onclick="closeModal()">×</button></div><div class="card" style="background:#f8f9ff"><div class="muted">HARGA LAYANAN AI BRIEF WRITER</div><div style="font-size:30px;font-weight:800">Rp49.000</div><p class="muted">Sekali pakai • brief otomatis siap dipublikasikan ke creator.</p></div><div class="field"><label>METODE PEMBAYARAN</label><select id="aiBriefMethod"><option>Saldo Creativa</option><option>QRIS</option><option>Virtual Account</option></select></div><button class="btn primary" style="width:100%;margin-top:14px" onclick="payAiBrief()">Bayar & Tulis Brief Otomatis</button>`)}
+function payAiBrief(){
+ const method=document.getElementById('aiBriefMethod').value;
+ document.getElementById('modalBox').innerHTML=`<div style="text-align:center;padding:36px 10px"><div style="font-size:36px">🤖</div><h3 style="margin:10px 0 4px">AI sedang menyusun brief...</h3><p class="muted">Menganalisis profil bisnis, niche kuliner, dan histori campaign.</p></div>`;
+ setTimeout(()=>{
+  const t=aiBriefTemplates[Math.floor(Math.random()*aiBriefTemplates.length)];
+  document.getElementById('campName').value=t.name;
+  document.getElementById('briefLoc').value=t.loc;
+  document.getElementById('briefMinFollower').value=t.minFollower;
+  document.getElementById('briefPlatform').value=t.platform;
+  document.getElementById('briefBudget').value=t.budget;
+  document.getElementById('briefTimeline').value=t.timeline;
+  document.getElementById('briefDeliverable').value=t.deliverable;
+  document.getElementById('briefSyarat').value=t.syarat;
+  walletAvailable=Math.max(0,walletAvailable-49000);
+  financeTransactions.unshift({date:new Date().toISOString().slice(0,10),type:'payment',desc:'AI Brief Writer',method,amount:-49000,status:'success'});
+  if(typeof renderWallet==='function')renderWallet();
+  if(document.getElementById('txRows'))renderTransactions();
+  closeModal();
+  toast('Pembayaran berhasil. Brief otomatis oleh AI sudah siap ✨');
+ },1400);
+}
 function openModal(content){document.getElementById('modalBox').innerHTML=content;document.getElementById('modal').classList.add('open');lucide.createIcons()}
 function closeModal(){document.getElementById('modal').classList.remove('open')}
 function launch(name){openModal(`<div class="modal-head"><h2>Luncurkan Campaign</h2><button class="close" onclick="closeModal()">×</button></div><p><b>${name}</b> siap dimasukkan ke campaign.</p><div class="success">✓ Produk sudah terhubung ke profil bisnis</div><div style="height:12px"></div><button class="btn primary" style="width:100%" onclick="goto('brief');closeModal();toast('Campaign brief dibuka')">Lanjut Susun Brief</button>`)}
@@ -329,6 +453,76 @@ function approveTask(){toast('Konten disetujui. Status: Menunggu upload');closeM
 function cashout(){toast('Dana berhasil diproses untuk pencairan');closeModal()}
 const briefNames=['Kopi Launch — TikTok','Ramadan Beauty Boost','Weekend Fashion Drop','Craft Local Story','Coffee Habit Challenge','UGC Cold Brew','Bandung Creator Sprint'];
 function renderBrief(){document.getElementById('briefHistory').innerHTML=briefNames.map((n,i)=>`<div class="task"><div class="top"><b>${n}</b><span class="badge ${i<2?'green':'blue'}">${i<2?'Aktif':'Selesai'}</span></div><p>${i%2?'TikTok + Instagram':'TikTok'} • Rp${(8+i*2).toLocaleString('id-ID')} Jt</p></div>`).join('')}
+function fmtDate(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+let schedMonth=new Date(2026,7,1);
+let scheduleEvents={
+ '2026-08-17':[{title:'Hari Kemerdekaan',type:'holiday'}],
+ '2026-08-21':[{title:'Shooting Kopi Habit Challenge',type:'shoot'}],
+ '2026-08-25':[{title:'Posting TikTok Weekend Food Guide',type:'default'}],
+ '2026-08-27':[{title:'Live Session Brand',type:'live'}],
+ '2026-08-29':[{title:'Meeting RasaKita Coffee',type:'meeting'}],
+ '2026-09-02':[{title:'Deadline Carousel UMKM Bandung',type:'deadline'}]
+};
+const schedTypeClass={default:'',live:'t-live',meeting:'t-meeting',deadline:'t-deadline',shoot:'t-shoot',holiday:'t-meeting'};
+const schedTypeLabels={default:'Posting',shoot:'Produksi',live:'Live',meeting:'Meeting',deadline:'Deadline',holiday:'Libur'};
+function schedTypeLabel(t){return schedTypeLabels[t]||'Kegiatan'}
+function schedShift(n){schedMonth=new Date(schedMonth.getFullYear(),schedMonth.getMonth()+n,1);renderScheduleCalendar()}
+function renderScheduleCalendar(){
+ const el=document.getElementById('scheduleCalendar');if(!el)return;
+ const y=schedMonth.getFullYear(),m=schedMonth.getMonth();
+ const monthNames=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+ const lbl=document.getElementById('schedMonthLabel');if(lbl)lbl.textContent=monthNames[m]+' '+y;
+ const first=new Date(y,m,1);
+ const startOffset=first.getDay();
+ const daysInMonth=new Date(y,m+1,0).getDate();
+ const daysInPrevMonth=new Date(y,m,0).getDate();
+ const dow=['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+ const todayStr=fmtDate(new Date());
+ let html='<div class="sched-cal">'+dow.map(d=>`<div class="dow">${d}</div>`).join('');
+ const totalCells=Math.ceil((startOffset+daysInMonth)/7)*7;
+ for(let i=0;i<totalCells;i++){
+  const dayNum=i-startOffset+1;
+  let cellDate,otherClass='',displayNum;
+  if(dayNum<1){displayNum=daysInPrevMonth+dayNum;cellDate=new Date(y,m-1,displayNum);otherClass=' other'}
+  else if(dayNum>daysInMonth){displayNum=dayNum-daysInMonth;cellDate=new Date(y,m+1,displayNum);otherClass=' other'}
+  else{displayNum=dayNum;cellDate=new Date(y,m,dayNum)}
+  const dateStr=fmtDate(cellDate);
+  const isToday=dateStr===todayStr?' today':'';
+  const evts=scheduleEvents[dateStr]||[];
+  const evtHtml=evts.slice(0,2).map(e=>`<div class="evt ${schedTypeClass[e.type]||''}">${e.title}</div>`).join('');
+  const moreHtml=evts.length>2?`<div class="evt-more">+${evts.length-2} lagi</div>`:'';
+  html+=`<div class="day${otherClass}${isToday}" onclick="openAddEvent('${dateStr}')"><div class="dnum">${displayNum}</div>${evtHtml}${moreHtml}</div>`;
+ }
+ html+='</div>';
+ el.innerHTML=html;
+}
+function openAddEvent(dateStr){
+ const evts=scheduleEvents[dateStr]||[];
+ const dateFmt=new Date(dateStr+'T00:00:00').toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+ const list=evts.map((e,i)=>`<div class="task"><div class="top"><b>${e.title}</b><span class="badge blue">${schedTypeLabel(e.type)}</span></div>${e.type!=='holiday'?`<button class="btn danger small" style="margin-top:6px" onclick="removeEvent('${dateStr}',${i})">Hapus</button>`:''}</div>`).join('')||'<div class="muted" style="margin-bottom:10px">Belum ada kegiatan di tanggal ini.</div>';
+ openModal(`<div class="modal-head"><h2>${dateFmt}</h2><button class="close" onclick="closeModal()">×</button></div>${list}<div style="height:8px"></div><div class="formgrid"><div class="field"><label>JENIS KEGIATAN</label><select id="evtType"><option value="default">Posting Konten</option><option value="shoot">Shooting / Produksi</option><option value="live">Live Session</option><option value="meeting">Meeting Brand</option><option value="deadline">Deadline Deliverable</option></select></div><div class="field"><label>WAKTU</label><input id="evtTime" value="10:00"></div><div class="field full"><label>JUDUL KEGIATAN</label><input id="evtTitle" placeholder="cth: Posting TikTok Cold Brew"></div></div><button class="btn primary" style="width:100%;margin-top:10px" onclick="addEvent('${dateStr}')">+ Tambah Kegiatan</button>`);
+}
+function addEvent(dateStr){
+ const title=(document.getElementById('evtTitle').value||'').trim();
+ const type=document.getElementById('evtType').value;
+ const time=document.getElementById('evtTime').value;
+ if(!title){toast('Isi judul kegiatan dulu ya');return}
+ if(!scheduleEvents[dateStr])scheduleEvents[dateStr]=[];
+ scheduleEvents[dateStr].push({title:(time?time+' • ':'')+title,type});
+ closeModal();renderScheduleCalendar();toast('Kegiatan ditambahkan ke jadwal');
+}
+function removeEvent(dateStr,idx){scheduleEvents[dateStr].splice(idx,1);closeModal();renderScheduleCalendar();toast('Kegiatan dihapus')}
+function optimizeSchedule(){
+ toast('AI menganalisis waktu posting terbaik...');
+ setTimeout(()=>{
+  const y=schedMonth.getFullYear(),m=schedMonth.getMonth();
+  const daysInMonth=new Date(y,m+1,0).getDate();
+  const picks=[6,13,20].filter(d=>d<=daysInMonth);
+  picks.forEach((d,i)=>{const ds=fmtDate(new Date(y,m,d));if(!scheduleEvents[ds])scheduleEvents[ds]=[];scheduleEvents[ds].push({title:'AI: Waktu posting optimal',type:i===1?'live':'default'})});
+  renderScheduleCalendar();
+  toast('Jadwal dioptimalkan. Slot posting terbaik ditambahkan ✨');
+ },900);
+}
 let charts={};
 function chart(id,type,data,options={}){if(charts[id])charts[id].destroy();charts[id]=new Chart(document.getElementById(id),{type,data,options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10}}}},scales:type==='doughnut'?{}:{x:{grid:{display:false}},y:{grid:{color:'#eef0f4'},ticks:{font:{size:10}}}},...options}})}
 function initCharts(){
@@ -340,7 +534,97 @@ function initCharts(){
  chart('perfArea','line',{labels:['Week 1','Week 2','Week 3','Week 4','Week 5','Week 6'],datasets:[{label:'Score',data:[58,63,66,71,79,86],fill:true,tension:.35,borderWidth:2}]});
 }
 function renderPerformance(){const top=[...influencers].sort((a,b)=>((b.gmv/b.rate)+(b.views/100000))-( (a.gmv/a.rate)+(a.views/100000))).slice(0,8);document.getElementById('perfRows').innerHTML=top.map((x,i)=>`<tr><td><b>#${i+1}</b></td><td><div class="person"><img src="${x.img}"><b>${x.name}</b></div></td><td>${x.niche}</td><td>${(x.views/1000).toFixed(0)}K</td><td>${Math.round(x.views*.027).toLocaleString('id-ID')}</td><td>${money(x.gmv)}</td><td>${money(Math.round(x.rate/65))}</td><td><span class="badge green">${88-i*2}/100</span></td></tr>`).join('')}
-function renderRoster(){document.getElementById('rosterRows').innerHTML=influencers.slice(0,14).map((x,i)=>`<tr><td><div class="person"><img src="${x.img}"><div><b>${x.name}</b><div class="muted">${x.platform}</div></div></div></td><td>${x.niche}</td><td>${['Kopi Launch','Ramadan Boost','Creator Sprint','Product Story'][i%4]}</td><td>creator${x.id}@mail.id</td><td>★ ${(4.6+(i%4)*.1).toFixed(1)}</td><td>${['28 Agu 2026','21 Agu 2026','15 Agu 2026'][i%3]}</td><td><span class="badge green">Active</span></td></tr>`).join('')}
+let walletAvailable=2500000;
+let creatorAvailable=4850000;
+let creatorReady=1920000;
+let creatorHistory=[
+ {name:'Kopi Habit Challenge',img:'https://i.pravatar.cc/120?img=1',campaign:'RasaKita Coffee',amount:2500000,status:'Diterima'},
+ {name:'Weekend Fashion Drop',img:'https://i.pravatar.cc/120?img=3',campaign:'Kanvas Denim',amount:1800000,status:'Diproses'},
+ {name:'Craft Local Story',img:'https://i.pravatar.cc/120?img=4',campaign:'Kriya Nusantara',amount:1200000,status:'Diterima'}
+];
+let walletAllocations=[
+ {name:'Naya Putri',img:'https://i.pravatar.cc/120?img=1',campaign:'Kopi Habit Challenge',amount:2500000,status:'Menunggu Upload'},
+ {name:'Salsa Aulia',img:'https://i.pravatar.cc/120?img=3',campaign:'Weekend Fashion Drop',amount:1800000,status:'Review'},
+ {name:'Dimas Kurnia',img:'https://i.pravatar.cc/120?img=4',campaign:'Craft Local Story',amount:1700000,status:'Menunggu Upload'},
+ {name:'Fajar Adi',img:'https://i.pravatar.cc/120?img=6',campaign:'UGC Cold Brew',amount:700000,status:'Review'}
+];
+function renderWallet(){
+ const av=document.getElementById('walletAvailable'); if(!av)return;
+ const isInf=typeof role!=='undefined'&&role==='influencer';
+ if(isInf){
+  document.getElementById('walletTitle').textContent='Saldo Creator';
+  document.getElementById('walletDesc').textContent='Pantau saldo creator dan dana yang siap dicairkan dari campaign selesai.';
+  document.getElementById('walletCard1Label').textContent='Saldo Creator';
+  document.getElementById('walletCard1Note').textContent='Dari campaign & top up';
+  document.getElementById('walletCard2Label').textContent='Siap Dicairkan';
+  document.getElementById('walletAllocatedNote').textContent='Bisa diajukan ke rekening/e-wallet';
+  document.getElementById('walletListTitle').textContent='Riwayat Campaign & Pencairan';
+  document.getElementById('walletListDesc').textContent='Dana dari campaign yang sudah/akan dicairkan';
+  document.getElementById('walletCairkanBtn').style.display='inline-flex';
+  document.getElementById('sidebarBalanceLabel').textContent='Saldo Creator';
+  av.textContent=money(creatorAvailable);
+  document.getElementById('walletAllocated').textContent=money(creatorReady);
+  document.getElementById('walletAllocations').innerHTML=creatorHistory.map(a=>`<div class="task"><div class="top"><div class="person"><img src="${a.img}"><div><b>${a.name}</b><div class="muted">${a.campaign}</div></div></div><span class="badge ${a.status==='Diproses'?'yellow':'green'}">${a.status}</span></div><p style="margin-top:8px">Nominal: <b>${money(a.amount)}</b></p></div>`).join('');
+  const sbv=document.getElementById('sidebarBalanceValue'); if(sbv)sbv.textContent=money(creatorAvailable);
+  const psc=document.getElementById('profileSaldoCreator'); if(psc)psc.textContent=money(creatorAvailable);
+  const psr=document.getElementById('profileSaldoReady'); if(psr)psr.textContent=money(creatorReady);
+ }else{
+  document.getElementById('walletTitle').textContent='Saldo & Top Up';
+  document.getElementById('walletDesc').textContent='Pantau saldo yang bisa dipakai dan saldo yang sedang teralokasi ke influencer.';
+  document.getElementById('walletCard1Label').textContent='Saldo Dapat Digunakan';
+  document.getElementById('walletCard1Note').textContent='Siap dipakai untuk campaign baru';
+  document.getElementById('walletCard2Label').textContent='Saldo Dalam Penggunaan';
+  document.getElementById('walletListTitle').textContent='Alokasi Saldo per Influencer';
+  document.getElementById('walletListDesc').textContent='Dana yang sedang ditahan untuk campaign berjalan';
+  document.getElementById('walletCairkanBtn').style.display='none';
+  document.getElementById('sidebarBalanceLabel').textContent='Saldo dapat digunakan';
+  av.textContent=money(walletAvailable);
+  const totalAlloc=walletAllocations.reduce((s,a)=>s+a.amount,0);
+  document.getElementById('walletAllocated').textContent=money(totalAlloc);
+  document.getElementById('walletAllocatedNote').textContent='Teralokasi ke '+walletAllocations.length+' influencer aktif';
+  document.getElementById('walletAllocations').innerHTML=walletAllocations.map(a=>`<div class="task"><div class="top"><div class="person"><img src="${a.img}"><div><b>${a.name}</b><div class="muted">${a.campaign}</div></div></div><span class="badge ${a.status==='Review'?'yellow':'blue'}">${a.status}</span></div><p style="margin-top:8px">Dana ditahan: <b>${money(a.amount)}</b></p></div>`).join('');
+  const sbv=document.getElementById('sidebarBalanceValue'); if(sbv)sbv.textContent=money(walletAvailable);
+ }
+}
+function cairkanSaldo(){
+ openModal(`<div class="modal-head"><h2>Cairkan Dana</h2><button class="close" onclick="closeModal()">×</button></div><p class="muted">Saldo siap dicairkan: <b>${money(creatorReady)}</b></p><div class="field full"><label>REKENING / E-WALLET TUJUAN</label><input value="BCA •••• 4821 — Raka Pratama"></div><button class="btn green" style="width:100%;margin-top:12px" onclick="confirmCairkan()">Ajukan Pencairan</button>`);
+}
+function confirmCairkan(){
+ if(creatorReady<=0){toast('Tidak ada saldo yang bisa dicairkan');closeModal();return}
+ const amt=creatorReady;
+ creatorHistory.unshift({name:'Pencairan Dana',img:'https://i.pravatar.cc/120?img=32',campaign:'Ke rekening BCA •••• 4821',amount:amt,status:'Diproses'});
+ creatorReady=0;
+ renderWallet();closeModal();
+ toast('Permintaan pencairan '+money(amt)+' berhasil diajukan');
+}
+const financeTransactions=[
+ {date:'2026-08-27',type:'topup',desc:'Top Up Saldo Campaign',method:'QRIS',amount:2000000,status:'success'},
+ {date:'2026-08-25',type:'payment',desc:'Pembayaran Campaign — Kopi Habit Challenge (Naya Putri)',method:'Saldo Creativa',amount:-2500000,status:'success'},
+ {date:'2026-08-22',type:'payment',desc:'AI Brief Writer',method:'Saldo Creativa',amount:-49000,status:'success'},
+ {date:'2026-08-20',type:'refund',desc:'Pengembalian Dana — Campaign dibatalkan (Fajar Adi)',method:'Saldo Creativa',amount:1200000,status:'success'},
+ {date:'2026-08-15',type:'payment',desc:'Pembayaran Campaign — Weekend Fashion Drop (Salsa Aulia)',method:'Saldo Creativa',amount:-1800000,status:'success'},
+ {date:'2026-08-10',type:'topup',desc:'Top Up Saldo Campaign',method:'Virtual Account',amount:5000000,status:'success'},
+ {date:'2026-07-29',type:'payment',desc:'Pembayaran Campaign — Craft Local Story (Dimas Kurnia)',method:'Saldo Creativa',amount:-1700000,status:'success'},
+ {date:'2026-07-18',type:'topup',desc:'Top Up Saldo Campaign',method:'Kartu',amount:3000000,status:'success'},
+ {date:'2026-07-05',type:'refund',desc:'Pengembalian Dana — Revisi konten tidak sesuai',method:'Saldo Creativa',amount:600000,status:'success'},
+ {date:'2026-06-22',type:'payment',desc:'Pembayaran Campaign — UGC Cold Brew (Vina Zahra)',method:'Saldo Creativa',amount:-1400000,status:'success'},
+ {date:'2026-06-12',type:'topup',desc:'Top Up Saldo Campaign',method:'QRIS',amount:4000000,status:'success'},
+ {date:'2026-05-30',type:'payment',desc:'Pembayaran Campaign — Bandung Creator Sprint (Caca Lestari)',method:'Saldo Creativa',amount:-2200000,status:'success'}
+];
+function renderTransactions(){
+ const m=document.getElementById('txMonthFilter')?.value||'all', t=document.getElementById('txTypeFilter')?.value||'all';
+ const arr=financeTransactions.filter(x=>(m==='all'||x.date.startsWith(m))&&(t==='all'||x.type===t));
+ let inSum=0,outSum=0; arr.forEach(x=>{if(x.amount>0)inSum+=x.amount;else outSum+=Math.abs(x.amount)});
+ document.getElementById('txIn').textContent=money(inSum);
+ document.getElementById('txOut').textContent=money(outSum);
+ document.getElementById('txNet').textContent=money(inSum-outSum);
+ document.getElementById('txRows').innerHTML=arr.map(x=>{
+  const typeLabel={topup:'Top Up',payment:'Pembayaran',refund:'Refund'}[x.type];
+  const badgeClass={topup:'green',payment:'red',refund:'blue'}[x.type];
+  const dateFmt=new Date(x.date+'T00:00:00').toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
+  return `<tr><td>${dateFmt}</td><td><span class="badge ${badgeClass}">${typeLabel}</span></td><td>${x.desc}</td><td>${x.method}</td><td style="color:${x.amount>0?'#1c8b57':'#c6404f'};font-weight:700">${x.amount>0?'+':'-'}${money(Math.abs(x.amount))}</td><td><span class="badge green">Sukses</span></td></tr>`;
+ }).join('')||'<tr><td colspan="6" class="muted" style="text-align:center;padding:20px">Tidak ada transaksi pada filter ini.</td></tr>';
+}
 function initTrends(){
  const tabs=['Kuliner','Fashion','Beauty','Kerajinan','Lifestyle'];document.getElementById('trendTabs').innerHTML=tabs.map((t,i)=>`<button class="tab ${i===0?'active':''}" onclick="setTrend('${t}',this)">${t}</button>`).join('');
  setTrend('Kuliner',document.querySelector('#trendTabs .tab'));
@@ -350,16 +634,67 @@ function initTrends(){
 function setTrend(n,el){document.querySelectorAll('#trendTabs .tab').forEach(x=>x.classList.remove('active'));el.classList.add('active');const cfg={Kuliner:['84K','18.6K','6.2%','Rp1.240'],Fashion:['72K','24.1K','5.8%','Rp1.480'],Beauty:['119K','31.7K','7.1%','Rp1.030'],Kerajinan:['42K','9.4K','5.2%','Rp960'],Lifestyle:['67K','15.9K','6.7%','Rp1.180']}[n];['tSearch','tContent','tEng','tCpc'].forEach((id,i)=>document.getElementById(id).textContent=cfg[i]);chart('trendChart','line',{labels:['W1','W2','W3','W4','W5','W6','W7','W8','W9','W10','W11','W12'],datasets:[{label:'Demand index',data:Array.from({length:12},(_,i)=>45+i*(n==='Beauty'?5:3)+(i%3)*4),tension:.35,borderWidth:2},{label:'Content volume',data:Array.from({length:12},(_,i)=>30+i*2+(i%4)*5),tension:.35,borderWidth:2}]});document.getElementById('trendRec').innerHTML=[['Arah pasar','Masuk lewat creator micro dengan audience 18–34.'],['Format terbaik','Short-form review natural + voucher CTA.'],['Timing','Dorong campaign 7–10 hari sebelum peak demand.'],['Risk check','Hindari overlap creator dengan audience serupa.']].map(x=>`<div class="task"><b>${x[0]}</b><p>${x[1]}</p></div>`).join('')}
 document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
 document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>goto(b.dataset.page)));
-renderProducts();renderNiches();renderTasks();renderBrief();renderPerformance();renderRoster();initCharts();lucide.createIcons();
-let role='business';function enterRole(r){role=r;document.getElementById('landing').style.display='none';document.getElementById('appRoot').style.display='block';setRoleUI();goto(r==='business'?'dashboard':'inf-profile')}function switchRole(){enterRole(role==='business'?'influencer':'business')}function setRoleUI(){document.getElementById('businessNav').style.display=role==='business'?'block':'none';document.getElementById('influencerNav').style.display=role==='influencer'?'block':'none';document.querySelector('.logo').innerHTML='<span class="logo-dot"></span>Creativa <span class="badge '+(role==='business'?'blue':'green')+'" style="margin-left:auto">'+(role==='business'?'BUSINESS':'CREATOR')+'</span>'}const cities=["Jakarta Selatan","Jakarta Pusat","Jakarta Barat","Jakarta Timur","Jakarta Utara","Bandung","Bandung Barat","Bekasi","Bogor","Depok","Cimahi","Sukabumi","Cianjur","Karawang","Purwakarta","Subang","Indramayu","Cirebon","Tasikmalaya","Garut","Sumedang","Majalengka","Kuningan","Semarang","Surakarta","Salatiga","Magelang","Yogyakarta","Sleman","Bantul","Kulon Progo","Kudus","Jepara","Pati","Rembang","Surabaya","Sidoarjo","Gresik","Malang","Batu","Mojokerto","Kediri","Blitar","Jember","Banyuwangi","Denpasar","Badung","Gianyar","Medan","Deli Serdang","Binjai","Palembang","Pekanbaru","Padang","Batam","Pontianak","Banjarmasin","Balikpapan","Samarinda","Makassar","Manado","Mataram","Kupang","Jayapura"];
+let role='business';
+renderProducts();renderNiches();renderTasks();renderBrief();renderPerformance();renderWallet();renderTransactions();renderInf();initCharts();lucide.createIcons();
+function enterRole(r){role=r;document.getElementById('landing').style.display='none';document.getElementById('appRoot').style.display='block';setRoleUI();goto(r==='business'?'dashboard':'inf-profile')}function switchRole(){enterRole(role==='business'?'influencer':'business')}const cities=["Jakarta Selatan","Jakarta Pusat","Jakarta Barat","Jakarta Timur","Jakarta Utara","Bandung","Bandung Barat","Bekasi","Bogor","Depok","Cimahi","Sukabumi","Cianjur","Karawang","Purwakarta","Subang","Indramayu","Cirebon","Tasikmalaya","Garut","Sumedang","Majalengka","Kuningan","Semarang","Surakarta","Salatiga","Magelang","Yogyakarta","Sleman","Bantul","Kulon Progo","Kudus","Jepara","Pati","Rembang","Surabaya","Sidoarjo","Gresik","Malang","Batu","Mojokerto","Kediri","Blitar","Jember","Banyuwangi","Denpasar","Badung","Gianyar","Medan","Deli Serdang","Binjai","Palembang","Pekanbaru","Padang","Batam","Pontianak","Banjarmasin","Balikpapan","Samarinda","Makassar","Manado","Mataram","Kupang","Jayapura"];
 const campaignSeed=[["Local Coffee Story","RasaKita Coffee","Kuliner","Bandung",50000,2500000,"https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=700&q=80"],["Beauty Glow Weekend","Lumière Skin","Beauty","Jakarta Selatan",100000,4000000,"https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=700&q=80"],["Denim Daily Look","Kanvas Denim","Fashion","Surakarta",25000,1800000,"https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=700&q=80"],["Hidden Gem Bandung","Jelajah Kota","Travel","Bandung",10000,1500000,"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=700&q=80"],["Healthy Meal Challenge","FitBox","Fitness","Surabaya",100000,3200000,"https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=700&q=80"],["Local Craft Stories","Kriya Nusantara","Kerajinan","Yogyakarta",25000,1700000,"https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=700&q=80"],["Tech Gadget First Look","GizmoLab","Tech","Jakarta Pusat",50000,3000000,"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=700&q=80"],["Family Fun Day","Ruang Keluarga","Parenting","Depok",10000,1200000,"https://images.unsplash.com/photo-1504159506876-f8338247a14a?auto=format&fit=crop&w=700&q=80"],["Street Food Hunter","Rasa Jalanan","Kuliner","Medan",25000,1400000,"https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=700&q=80"]];const campaignData=Array.from({length:40},(_,i)=>{let s=campaignSeed[i%campaignSeed.length];return{name:s[0]+(i>8?' #'+(i+1):''),brand:s[1],niche:s[2],city:i<9?s[3]:cities[i%cities.length],followers:s[4]+(i%6)*10000,rate:s[5]+(i%5)*250000,img:s[6],spots:2+(i%5)}});
 function initCampaignFilters(){document.getElementById('cityFilter').innerHTML='<option>Semua Kota/Kabupaten</option>'+cities.map(x=>'<option>'+x+'</option>').join('')}function renderCampaigns(){let q=(document.getElementById('campSearch').value||'').toLowerCase(),city=document.getElementById('cityFilter').value,niche=document.getElementById('nicheFilter').value,mf=+document.getElementById('minFollowerFilter').value,rf=+document.getElementById('rateFilter').value;let a=campaignData.filter(c=>(!q||(c.name+c.brand).toLowerCase().includes(q))&&(city==='Semua Kota/Kabupaten'||c.city===city)&&(niche==='Semua Niche'||c.niche===niche)&&(!mf||c.followers>=mf)&&(!rf||c.rate<=rf));document.getElementById('campaignCards').innerHTML=a.map(c=>'<div class="card" style="padding:0;overflow:hidden"><img src="'+c.img+'" style="width:100%;height:165px;object-fit:cover"><div style="padding:15px"><div class="muted">'+c.brand+' • '+c.city+'</div><h3 style="margin:4px 0">'+c.name+'</h3><div class="socials"><span class="social">'+c.niche+'</span><span class="social">'+(c.followers/1000).toFixed(0)+'K+ followers</span></div><div style="display:flex;justify-content:space-between;align-items:end;margin-top:14px"><div><div class="muted">Rate Card</div><b>'+money(c.rate)+'</b></div><button class="btn primary small" onclick="viewCampaign('+campaignData.indexOf(c)+')">Lihat</button></div></div></div>').join('')||'<div class="card"><b>Tidak ada campaign.</b><p class="muted">Coba ubah filter.</p></div>'}
 function viewCampaign(i){let c=campaignData[i];openModal('<div class="modal-head"><div><h2>'+c.name+'</h2><div class="muted">'+c.brand+' • '+c.niche+' • '+c.city+'</div></div><button class="close" onclick="closeModal()">×</button></div><img src="'+c.img+'" style="width:100%;height:240px;object-fit:cover;border-radius:15px;margin:12px 0"><div class="grid3"><div class="card"><div class="muted">Rate Card</div><b>'+money(c.rate)+'</b></div><div class="card"><div class="muted">Min. Followers</div><b>'+(c.followers/1000).toFixed(0)+'K+</b></div><div class="card"><div class="muted">Open Slot</div><b>'+c.spots+' creator</b></div></div><div class="card" style="margin-top:12px"><h3>Deskripsi</h3><p class="muted">Campaign mencari creator yang mampu membuat storytelling natural, relevan dengan audience, dan memiliki kualitas visual konsisten.</p><h3>Standar Ketentuan</h3><p class="muted">Original content • no misleading claims • maksimal 2 revisi • posting tepat waktu • insight wajib setelah campaign.</p></div><button class="btn primary" style="width:100%;margin-top:12px" onclick="applyCampaign('+i+')">Apply Campaign</button>')}
 function applyCampaign(i){let c=campaignData[i];openModal('<div class="modal-head"><h2>Apply — '+c.name+'</h2><button class="close" onclick="closeModal()">×</button></div><div class="success">✓ Dokumen kompetensi otomatis diambil dari profil creator.</div><div class="card" style="margin-top:12px"><b>Talent Document</b><p class="muted">Raka Pratama • Food Storyteller • Bandung<br>TikTok 121K • Instagram 63K • Avg Views 79K • ER 6,8%</p><button class="btn small" onclick="toast(\'Talent document dibuka\')">Lihat Dokumen</button></div><div class="field full" style="margin-top:12px"><label>CATATAN APPLY</label><textarea>Saya siap membuat konten storytelling yang natural dan relevan dengan audience campaign.</textarea></div><button class="btn primary" style="width:100%;margin-top:12px" onclick="toast(\'Application terkirim\');closeModal()">Kirim Application</button>')}
 function showInvites(){openModal('<div class="modal-head"><h2>Undangan Unit Bisnis</h2><button class="close" onclick="closeModal()">×</button></div>'+[['Kopi Nusantara','Kuliner','Rp3.000.000'],['Sora Activewear','Fashion','Rp2.750.000'],['Luma Skin','Beauty','Rp4.500.000']].map(x=>'<div class="task" style="margin-top:10px"><div class="top"><b>'+x[0]+'</b><span class="badge blue">'+x[1]+'</span></div><p>Undangan eksklusif • 1 Reels + 3 Story • '+x[2]+' • Deadline 7 hari</p><button class="btn danger small" onclick="toast(\'Undangan ditolak\')">Reject</button><button class="btn green small" style="margin-left:6px" onclick="toast(\'Undangan diterima\')">Terima</button><button class="btn small" style="margin-left:6px" onclick="toast(\'Detail lengkap dibuka\')">Detail</button></div>').join(''))}
-function saveInfluencerProfile(){toast('Profil dikirim untuk proses verifikasi')}function creatorTopup(){openModal('<div class="modal-head"><h2>Saldo Creator</h2><button class="close" onclick="closeModal()">×</button></div><p class="muted">Saldo sekarang Rp4.850.000</p><div class="field"><label>NOMINAL TOP UP</label><input value="500000"></div><button class="btn primary" style="width:100%;margin-top:12px" onclick="toast(\'Saldo berhasil ditambahkan\');closeModal()">Bayar</button>')}function talentAI(){openModal('<div class="modal-head"><h2>Creativa AI Talent Suite</h2><button class="close" onclick="closeModal()">×</button></div><div class="card"><div class="muted">CREATOR PRO</div><div style="font-size:30px;font-weight:800">Rp199.000 <span class="muted">/ bulan</span></div><p class="muted">Talent Doc AI • Trend Fit • Acceptance Probability • Priority Campaign • AI Schedule.</p></div><button class="btn primary" style="width:100%;margin-top:10px" onclick="toast(\'Pembayaran berhasil. AI aktif.\');closeModal()">Bayar & Aktifkan</button>')}function consultWA(){window.open('https://wa.me/6282333872895','_blank')}
+function saveInfluencerProfile(){toast('Profil dikirim untuk proses verifikasi')}
+function creatorTopup(){closeModal();goto('wallet');topup()}
+let talentSubscribed=false;
+function talentAI(){
+ if(talentSubscribed){toast('AI Talent Suite sudah aktif untuk kamu ✨');return}
+ openModal(`<div class="modal-head"><h2>Creativa AI Talent Suite</h2><button class="close" onclick="closeModal()">×</button></div><div class="card" style="background:#f8f9ff"><div class="muted">CREATOR PRO</div><div style="font-size:30px;font-weight:800">Rp49.000 <span class="muted">/ bulan</span></div><p class="muted">Talent Doc AI • Rekomendasi Rate Card • Trend Fit • AI Schedule Planner Interaktif • Saran Perbaikan Profil.</p></div><div class="formgrid" style="margin-top:10px"><div class="field full"><label>METODE PEMBAYARAN</label><select id="talentPayMethod"><option>Virtual Account</option><option>QRIS</option><option>Kartu</option><option>Saldo Creator</option></select></div></div><button class="btn primary" style="width:100%;margin-top:10px" onclick="activateTalentAI()">Bayar & Aktifkan</button>`);
+}
+function activateTalentAI(){
+ closeModal();
+ talentSubscribed=true;
+ document.getElementById('talentLockCard')?.classList.remove('lock');
+ document.getElementById('talentLockCard')?.querySelector('.lock-overlay')?.remove();
+ applyRateCardRecommendation();
+ renderPlaybookSuggestions();
+ renderScheduleCalendar();
+ const btn=document.getElementById('talentSuiteBtn'); if(btn){btn.textContent='✨ AI Talent Suite Aktif';btn.classList.remove('primary');btn.classList.add('green')}
+ toast('Pembayaran Rp49.000 berhasil. AI Talent Suite aktif ✨');
+ setTimeout(showTalentRecommendations,350);
+}
+function applyRateCardRecommendation(){
+ const reco={rateTiktok:2850000,rateReels:2500000,rateStory:850000,rateCarousel:1400000,rateLive:3900000,rateUgc:2050000};
+ Object.keys(reco).forEach(id=>{const el=document.getElementById(id);if(el)el.value=reco[id]});
+ const note=document.getElementById('rateRecoNote');if(note)note.style.display='block';
+}
+function renderPlaybookSuggestions(){
+ const el=document.getElementById('playbookList');if(!el)return;
+ el.innerHTML=[
+  ['1. Naikkan rate TikTok Video 14%','Demand Kuliner naik +34%, rate card kamu masih di bawah rata-rata pasar Bandung.'],
+  ['2. Perkuat bukti conversion','Tambahkan voucher used & GMV di 3 campaign terbaikmu supaya trust score naik.'],
+  ['3. Lengkapi talent doc','Sorot niche Food Storyteller, retention audience, dan hasil campaign Local Coffee Story (91% fit).'],
+  ['4. Jadwalkan posting di jam optimal','Pakai AI Schedule Planner — Kamis & Sabtu punya recommended score tertinggi.']
+ ].map(x=>`<div class="task"><b>${x[0]}</b><p>${x[1]}</p></div>`).join('');
+}
+function showTalentRecommendations(){
+ openModal(`<div class="modal-head"><div><h2>✨ Rekomendasi AI Talent Suite</h2><p class="muted">Berdasarkan trend fit & profil kamu saat ini</p></div><button class="close" onclick="closeModal()">×</button></div>
+ <div class="card" style="background:#f8f9ff"><h3 style="margin:0 0 6px">Rekomendasi Rate Card</h3><p class="muted" style="margin:0 0 10px">Sudah otomatis diisi ke Rate Card Creator</p>
+ <div class="table-wrap"><table class="table"><thead><tr><th>FORMAT</th><th>RATE SEBELUM</th><th>RATE REKOMENDASI</th></tr></thead><tbody>
+ <tr><td>TikTok Video</td><td>Rp2.500.000</td><td><b style="color:var(--green)">Rp2.850.000</b></td></tr>
+ <tr><td>IG Reels</td><td>Rp2.200.000</td><td><b style="color:var(--green)">Rp2.500.000</b></td></tr>
+ <tr><td>IG Story</td><td>Rp750.000</td><td><b style="color:var(--green)">Rp850.000</b></td></tr>
+ <tr><td>Carousel</td><td>Rp1.200.000</td><td><b style="color:var(--green)">Rp1.400.000</b></td></tr>
+ <tr><td>Live Session</td><td>Rp3.500.000</td><td><b style="color:var(--green)">Rp3.900.000</b></td></tr>
+ <tr><td>UGC Only</td><td>Rp1.800.000</td><td><b style="color:var(--green)">Rp2.050.000</b></td></tr>
+ </tbody></table></div></div>
+ <div style="height:12px"></div>
+ <div class="card"><h3 style="margin:0 0 6px">Trend Fit Tertinggi</h3><div class="task"><b>Local Coffee Story</b><p>Fit score 91% • demand +34% — cocok dengan gaya kontenmu</p></div><div class="task"><b>Weekend Food Guide</b><p>Fit score 87% • demand +21%</p></div></div>
+ <div style="height:12px"></div>
+ <div class="card"><h3 style="margin:0 0 6px">Saran Perbaikan Profil</h3><div class="task"><p>Tambahkan bukti conversion (voucher & GMV) di 3 campaign terbaik, lengkapi talent doc dengan niche Food Storyteller, dan gunakan AI Schedule Planner untuk posting di jam recommended score tertinggi (Kamis & Sabtu).</p></div></div>
+ <button class="btn primary" style="width:100%;margin-top:12px" onclick="closeModal();goto('inf-talent')">Lihat di Manajemen Talenta</button>`);
+}
+function consultWA(){window.open('https://wa.me/6282333872895','_blank')}
 function openUpdatePerformance(){openModal('<div class="modal-head"><h2>Update Performa Bulanan</h2><button class="close" onclick="closeModal()">×</button></div><div class="formgrid">'+[['PERIODE','Agustus 2026'],['FOLLOWERS','184200'],['LIKES','84200'],['COMMENTS','4200'],['SHARES','8800'],['TOTAL VIEWS','1240000'],['SAVES','6700'],['PROFILE VISITS','18400'],['LINK CLICKS','7200'],['VOUCHER USED','920'],['GMV','42000000'],['CAMPAIGN SELESAI','3'],['RATING CUSTOMER','4.9'],['TARGET ACHIEVEMENT %','117']].map(x=>'<div class="field"><label>'+x[0]+'</label><input value="'+x[1]+'"></div>').join('')+'</div><button class="btn primary" style="width:100%;margin-top:14px" onclick="closeModal();toast(\'Performa Agustus 2026 diperbarui\')">Update & Refresh Analytics</button>')}
-function initInfCharts(){const o={responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10}}}},scales:{x:{grid:{display:false}},y:{grid:{color:'#eef0f4'},ticks:{font:{size:10}}}}};chart('infGrowthChart','line',{labels:['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu'],datasets:[{label:'Followers (000)',data:[118,126,131,141,150,161,171,184],tension:.35,borderWidth:2},{label:'Views /10K',data:[62,70,74,83,91,98,108,124],tension:.35,borderWidth:2}]},o);chart('infHealthChart','bar',{labels:['Likes','Comments','Shares','Saves','Clicks'],datasets:[{label:'Monthly (000)',data:[84.2,4.2,8.8,6.7,7.2],borderRadius:8,borderWidth:0}]},o);chart('completionChart','doughnut',{labels:['Selesai','On Track','Revisi'],datasets:[{data:[18,2,1],borderWidth:0}]},{plugins:{legend:{position:'bottom'}}});chart('ratingChart','line',{labels:['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu'],datasets:[{label:'Rating',data:[4.6,4.7,4.7,4.8,4.8,4.9,4.8,4.9],tension:.3,borderWidth:2}]},o);chart('targetChart','bar',{labels:['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu'],datasets:[{label:'Achievement %',data:[91,96,88,103,105,111,108,117],borderRadius:7,borderWidth:0}]},o);chart('campaignMixChart','radar',{labels:['Delivery','Views','Engagement','Conversion','Brief Fit','Client Rating'],datasets:[{label:'Score',data:[96,88,91,84,94,98],borderWidth:2,pointRadius:3}]},{scales:{r:{beginAtZero:true,max:100,ticks:{display:false}}}});chart('acceptChart','doughnut',{labels:['High Fit','Medium','Low'],datasets:[{data:[62,28,10],borderWidth:0}]},{plugins:{legend:{position:'bottom'}}});chart('scheduleChart','line',{labels:['Sen','Sel','Rab','Kam','Jum','Sab','Min'],datasets:[{label:'Recommended score',data:[72,78,69,91,86,95,74],tension:.35,borderWidth:2}]},o);document.getElementById('priorityList').innerHTML=[['#1','Local Coffee Story','91% fit'],['#2','UMKM Bandung','88% fit'],['#3','Weekend Food Guide','84% fit'],['#4','Lifestyle Coffee Run','81% fit']].map(x=>'<div class="task"><div class="top"><b>'+x[0]+' '+x[1]+'</b><span class="badge green">'+x[2]+'</span></div><p>Apply dalam 24 jam • competitor density rendah</p></div>').join('');document.getElementById('topPortfolio').innerHTML=[['Coffee Habit Challenge','1,8M views','Rp72Jt GMV','4.9★'],['Bandung Food Week','820K views','Rp39Jt GMV','4.8★'],['Local Brew Story','610K views','Rp28Jt GMV','5.0★']].map(x=>'<div class="task"><div class="top"><b>'+x[0]+'</b><span class="badge blue">'+x[3]+'</span></div><p>'+x[1]+' • '+x[2]+'</p></div>').join('');document.getElementById('monthlyRows').innerHTML=[['Agu 2026','184.2K','84.2K','4.2K','8.8K','1.24M','6.8%','3'],['Jul 2026','171.0K','77.1K','3.9K','7.6K','1.08M','6.7%','4'],['Jun 2026','161.4K','69.8K','3.7K','6.9K','980K','6.5%','2'],['Mei 2026','150.2K','65.1K','3.5K','6.2K','910K','6.4%','3'],['Apr 2026','141.0K','59.2K','3.1K','5.8K','830K','6.1%','2']].map(r=>'<tr>'+r.map(c=>'<td>'+c+'</td>').join('')+'</tr>').join('')}
+function initInfCharts(){const o={responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10}}}},scales:{x:{grid:{display:false}},y:{grid:{color:'#eef0f4'},ticks:{font:{size:10}}}}};chart('infGrowthChart','line',{labels:['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu'],datasets:[{label:'Followers (000)',data:[118,126,131,141,150,161,171,184],tension:.35,borderWidth:2},{label:'Views /10K',data:[62,70,74,83,91,98,108,124],tension:.35,borderWidth:2}]},o);chart('infHealthChart','bar',{labels:['Likes','Comments','Shares','Saves','Clicks'],datasets:[{label:'Monthly (000)',data:[84.2,4.2,8.8,6.7,7.2],borderRadius:8,borderWidth:0}]},o);chart('completionChart','doughnut',{labels:['Selesai','On Track','Revisi'],datasets:[{data:[18,2,1],borderWidth:0}]},{plugins:{legend:{position:'bottom'}}});chart('ratingChart','line',{labels:['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu'],datasets:[{label:'Rating',data:[4.6,4.7,4.7,4.8,4.8,4.9,4.8,4.9],tension:.3,borderWidth:2}]},o);chart('targetChart','bar',{labels:['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu'],datasets:[{label:'Achievement %',data:[91,96,88,103,105,111,108,117],borderRadius:7,borderWidth:0}]},o);chart('campaignMixChart','radar',{labels:['Delivery','Views','Engagement','Conversion','Brief Fit','Client Rating'],datasets:[{label:'Score',data:[96,88,91,84,94,98],borderWidth:2,pointRadius:3}]},{scales:{r:{beginAtZero:true,max:100,ticks:{display:false}}}});chart('acceptChart','doughnut',{labels:['High Fit','Medium','Low'],datasets:[{data:[62,28,10],borderWidth:0}]},{plugins:{legend:{position:'bottom'}}});renderScheduleCalendar();document.getElementById('priorityList').innerHTML=[['#1','Local Coffee Story','91% fit'],['#2','UMKM Bandung','88% fit'],['#3','Weekend Food Guide','84% fit'],['#4','Lifestyle Coffee Run','81% fit']].map(x=>'<div class="task"><div class="top"><b>'+x[0]+' '+x[1]+'</b><span class="badge green">'+x[2]+'</span></div><p>Apply dalam 24 jam • competitor density rendah</p></div>').join('');document.getElementById('topPortfolio').innerHTML=[['Coffee Habit Challenge','1,8M views','Rp72Jt GMV','4.9★'],['Bandung Food Week','820K views','Rp39Jt GMV','4.8★'],['Local Brew Story','610K views','Rp28Jt GMV','5.0★']].map(x=>'<div class="task"><div class="top"><b>'+x[0]+'</b><span class="badge blue">'+x[3]+'</span></div><p>'+x[1]+' • '+x[2]+'</p></div>').join('');document.getElementById('monthlyRows').innerHTML=[['Agu 2026','184.2K','84.2K','4.2K','8.8K','1.24M','6.8%','3'],['Jul 2026','171.0K','77.1K','3.9K','7.6K','1.08M','6.7%','4'],['Jun 2026','161.4K','69.8K','3.7K','6.9K','980K','6.5%','2'],['Mei 2026','150.2K','65.1K','3.5K','6.2K','910K','6.4%','3'],['Apr 2026','141.0K','59.2K','3.1K','5.8K','830K','6.1%','2']].map(r=>'<tr>'+r.map(c=>'<td>'+c+'</td>').join('')+'</tr>').join('')}
 initCampaignFilters();renderCampaigns();initInfCharts();document.querySelectorAll('#influencerNav button').forEach(b=>b.addEventListener('click',()=>goto(b.dataset.page)));lucide.createIcons();
 
 /* === Creativa requested revision === */
@@ -440,11 +775,28 @@ function backToHome(){
 function setRoleUI(){
  document.getElementById('businessNav').style.display=role==='business'?'block':'none';
  document.getElementById('influencerNav').style.display=role==='influencer'?'block':'none';
- document.getElementById('transactionBtn').style.display=role==='influencer'?'none':'flex';
- document.getElementById('financeLabel').style.display=role==='influencer'?'none':'block';
- document.getElementById('financeNav').style.display=role==='influencer'?'none':'block';
- document.getElementById('sidebarBalance').style.display=role==='influencer'?'none':'block';
+ document.getElementById('financeLabel').style.display='block';
+ document.getElementById('financeLabel').textContent=role==='influencer'?'Saldo Creator':'Workspace Finance';
+ document.getElementById('financeNav').style.display='block';
+ document.getElementById('sidebarBalance').style.display='block';
+ renderWallet();
  document.querySelector('.logo').innerHTML='<span class="logo-dot"></span>Creativa <span class="badge '+(role==='business'?'blue':'green')+'" style="margin-left:auto">'+(role==='business'?'BUSINESS':'CREATOR')+'</span>';
+ renderMobileTabbar();
+}
+function renderMobileTabbar(){
+ const src=document.getElementById(role==='business'?'businessNav':'influencerNav');
+ const bar=document.getElementById('mobileTabbar');
+ if(!src||!bar)return;
+ const btns=Array.from(src.querySelectorAll('button')).map(b=>{
+  const page=b.dataset.page;
+  const icon=b.querySelector('i')?.outerHTML||'';
+  const active=b.classList.contains('active')?' active':'';
+  return `<button data-page="${page}" class="${active.trim()}">${icon}</button>`;
+ }).join('');
+ const walletBtn=role==='business'?'<button data-page="wallet"><i data-lucide="wallet-cards"></i></button>':'';
+ bar.innerHTML=btns+walletBtn;
+ bar.querySelectorAll('button[data-page]').forEach(b=>b.onclick=()=>goto(b.dataset.page));
+ lucide.createIcons();
 }
 renderTraining();
 </script>
